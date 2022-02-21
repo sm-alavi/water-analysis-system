@@ -1,0 +1,19 @@
+{% extends 'main.html' %}
+
+{% block content%}
+{{form.media}}
+<div class="container mt-5 justify-content-center" style="width:400px">
+    <div class="card shadow " >
+        <div class="card-body">
+            <form method="POST" action="">
+                {% csrf_token %}
+                {{ form.as_p }}
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

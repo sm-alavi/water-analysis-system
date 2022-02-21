@@ -1,0 +1,168 @@
+{%extends 'main.html'%}
+
+
+{% block content %}
+
+<div class="container shadow mt-3 w-75">
+    <div class="d-flex flex-row-reverse mt-3 align-right float">
+        <a href="{% url 'test' %}" class="btn btn-secondary btn-sm rounded shadow"><i class="bi bi-arrow-90deg-left"></i> Back</a>
+    </div>
+    <div>
+        <H4>Test Data</H4>
+    </div>
+    <div class="row d-inline justify-content-center p-3">
+        <div class="accordion">
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#information" aria-expanded="true" aria-controls="collapseOne">
+                    Test Information
+                  </button>
+                </h2>
+                <div id="information" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                      <div class="row">
+                          <div class="col">
+                            <table class="table table-responsive table-sm table-striped">
+                                <tbody>
+                                <tr>
+                                    <td>Lab No.</td>
+                                    <td>{{test.lab_number}}</td>
+                                </tr> 
+                                
+                                <tr>
+                                    <td>Country</td>
+                                    <td>{{test.well.field.country.name}}</td>
+                                </tr> 
+                                <tr>
+                                    <td>Field</td>
+                                    <td>{{test.well.field.name}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Well</td>
+                                    <td>{{test.well.name}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Sampling Date</td>
+                                    <td>{{test.sampling_date}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Report Date</td>
+                                    <td>{{test.report_date}}</td>
+                                </tr>
+                                  
+                                  
+
+
+                                </tbody>
+                            </table>
+
+                          </div>
+
+                          <div class="col">
+
+                          </div>
+                      </div>
+                  </div>
+                </div>
+            </div>
+
+            
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#analysis" aria-expanded="false" aria-controls="collapseTwo">
+                    Analysis
+                  </button>
+                </h2>
+                <div id="analysis" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                      <div class="row">
+                          <div class="col">
+                            <table class="table table-sm table-striped">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Abbv.</th>
+                                    <th scope="col">Conc. (mg/lit)</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in testanalysis%}
+                                {% if item.analysis.charge > 0 %}
+                                <tr>
+                                    <td>{{item.analysis.name}}</td>
+                                    <td>{{item.analysis.abbreviation}}</td>
+                                    <td>{{item.value}}</td>
+                                </tr>
+                                {%endif%}
+                                {%endfor%}
+                                  
+                                </tbody>
+                            </table>
+                          </div>
+
+                          <div class="col">
+                            <table class="table table-sm table-striped">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Abbv.</th>
+                                    <th scope="col">Conc. (mg/lit)</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in testanalysis%}
+                                {% if item.analysis.charge < 0 %}
+                                <tr>
+                                    <td>{{item.analysis.name}}</td>
+                                    <td>{{item.analysis.abbreviation}}</td>
+                                    <td>{{item.value}}</td>
+                                </tr>
+                                {%endif%}
+                                {%endfor%}
+                                  
+                                </tbody>
+                            </table>
+
+                          </div>
+                      </div>
+                  </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#properties" aria-expanded="false" aria-controls="collapseTwo">
+                    Properties
+                  </button>
+                </h2>
+                <div id="properties" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                      <div>
+                        <table class="table table-sm table-striped">
+                            <thead>
+                              <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Value</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in testmetadata%}
+                            <tr>
+                                <td>{{item.metadata.name}}</td>
+                                <td>{{item.value}}</td>
+                            </tr>
+                            {%endfor%}
+                              
+                            </tbody>
+                        </table>
+                      </div>
+                  </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+{%endblock%}

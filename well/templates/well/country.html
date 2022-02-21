@@ -1,0 +1,34 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="p-5">
+    <div>
+        <p class="badge rounded-pill bg-secondary">Countries</p>
+        <a href="{% url 'country-create' %}" class="btn btn-primary btn-sm rounded shadow"><i class="bi bi-plus-circle"></i> Add New</a>
+    </div>
+      <div class="row">
+
+        {% for country in country %}
+        <div class="col-sm-4">
+          <div class="card border border-1 m-2 shadow p-2 bg-body rounded">
+            <div class="card-body">
+              <h5 class="card-title">{{country.name}}</h5>
+              <p class="card-text">Number of defined fields: {{country.c_count}}</p>
+              
+              <a href="{% url 'field'%}?q={{country.id}}" class="btn btn-primary btn-sm"  title="Edit" name="edit"><i class="bi bi-pencil"></i></a>
+              <a href="{% url 'country-delete' country.id %}" class="btn btn-secondary btn-sm"  title="Delete" name="delete"><i class="bi bi-trash"></i></a>
+              <a href="{% url 'field'%}?q={{country.id}}" class="btn btn-info btn-sm" title="View Fields"><i class="bi bi-diagram-3"> View Fields</i></a>
+              <a href="{% url 'field-create' country.id %}" class="btn btn-info btn-sm" title="Add FieldS"><i class="bi bi-plus-square"></i></a>
+
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+    
+      </div>
+</div>
+
+
+
+{% endblock %}

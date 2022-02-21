@@ -1,0 +1,76 @@
+{% extends 'main.html' %}
+
+{%block content%}
+
+<div class="shaodw m-4 ">
+    <div>
+        <p class="badge rounded-pill bg-secondary">Users</p>
+        <a href="{% url 'user-create' %}" class="btn btn-primary btn-sm rounded shadow"><i class="bi bi-plus-circle"></i> Add New</a>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Users
+        </div>
+        <div class="card-body text-center">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Superuser Status</th>
+                        <th>Active Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Superuser Status</th>
+                        <th>Active Status</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for user in user%}
+                    <tr>
+                        <td>{{user.username}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.first_name}}</td>
+                        <td>{{user.last_name}}</td>
+                        <td>
+                            {% if user.is_superuser == True %}
+                            <h5><i class="bi bi-check-square-fill" style="color:green"></i></h5>
+                            {%else%}
+                            <h5><i class="bi bi-x-square-fill" style="color:red"></i></h5>
+                            {%endif%}
+                        </td>
+                        <td>
+                            {% if user.is_active == True %}
+                            <h5><i class="bi bi-check-square-fill" style="color:green"></i></h5>
+                            {%else%}
+                            <h5><i class="bi bi-x-square-fill" style="color:red"></i></h5>
+                            {%endif%}
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="" class="btn btn-primary btn-sm" title="View"><i class="bi bi-eye"></i></a>
+                                <a href="{% url 'user-update' user.id %}" class="btn btn-secondary btn-sm" title="Edit"><i class="bi bi-pencil"></i></a>
+                                <a href="{% url 'user-delete' user.id %}" class="btn btn-danger btn-sm" titile="Delete"><i class="bi bi-trash"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{%endblock%}

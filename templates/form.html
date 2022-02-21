@@ -1,0 +1,33 @@
+{% extends 'main.html' %}
+
+
+
+{% block content%}
+
+{{form.media}}
+<div class="container mt-5 justify-content-center w-75">
+    <div class="card shadow d-inline-block" >
+        <div class="card-body">
+            <form method="POST" action="">
+                {% csrf_token %}
+                <div class="form-group mb-3 row">
+                  {% for field in form %}                   
+                    <label class="col-sm-4 col-form-label">{{field.label}}</label>
+                    <div class="col-sm-8 mb-2">
+                        {{field}}
+                    </div>
+                   
+                    {% endfor %}
+                    
+                    <div class="container mt-3" >
+                        <button class="btn btn-primary m-2" type="submit" >Submit</button>
+                        <a href="{{request.META.HTTP_REFERER}}" class="btn btn-secondary m-2" type="submit" >Back</a>
+                    </div>
+                    
+                </div>   
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

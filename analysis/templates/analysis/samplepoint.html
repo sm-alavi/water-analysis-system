@@ -1,0 +1,55 @@
+{% extends 'main.html' %}
+
+{%block content%}
+
+<div class="shaodw m-4 ">
+    <div>
+        <p class="badge rounded-pill bg-secondary">Sample Points</p>
+        <a href="{% url 'samplepoint-create' %}" class="btn btn-primary btn-sm rounded shadow"><i class="bi bi-plus-circle"></i> Add New</a>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Wells
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Updated</th>
+                        <th>Created</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Name</th>
+                        <th>Updated</th>
+                        <th>Created</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for samplepoint in samplepoint%}
+                    <tr>
+                        <td>{{samplepoint.name}}</td>
+                        <td>{{samplepoint.updated}}</td>
+                        <td>{{samplepoint.created}}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="" class="btn btn-primary btn-sm" title="View"><i class="bi bi-eye"></i></a>
+                                <a href="{% url 'samplepoint-update' samplepoint.id %}" class="btn btn-secondary btn-sm" title="Edit"><i class="bi bi-pencil"></i></a>
+                                <a href="{% url 'samplepoint-delete' samplepoint.id %}" class="btn btn-danger btn-sm" titile="Delete"><i class="bi bi-trash"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{%endblock%}
