@@ -7,12 +7,12 @@
         <p class="badge rounded-pill bg-secondary">Sample Points</p>
         <a href="{% url 'samplepoint-create' %}" class="btn btn-primary btn-sm rounded shadow"><i class="bi bi-plus-circle"></i> Add New</a>
     </div>
-    <div class="card mb-4">
-        <div class="card-header">
+    <div class="card mb-4 shadow">
+        <div class="card-header bg-secondary text-white">
             <i class="fas fa-table me-1"></i>
             Wells
         </div>
-        <div class="card-body">
+        <div class="card-body text-center">
             <table id="datatablesSimple">
                 <thead>
                     <tr>
@@ -37,7 +37,7 @@
                         <td>{{samplepoint.updated}}</td>
                         <td>{{samplepoint.created}}</td>
                         <td>
-                            <div class="btn-group">
+                            <div class="btn-group shadow">
                                 <a href="" class="btn btn-primary btn-sm" title="View"><i class="bi bi-eye"></i></a>
                                 <a href="{% url 'samplepoint-update' samplepoint.id %}" class="btn btn-secondary btn-sm" title="Edit"><i class="bi bi-pencil"></i></a>
                                 <a href="{% url 'samplepoint-delete' samplepoint.id %}" class="btn btn-danger btn-sm" titile="Delete"><i class="bi bi-trash"></i></a>

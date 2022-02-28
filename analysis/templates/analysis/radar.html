@@ -1,0 +1,47 @@
+{% extends 'main.html' %}
+
+{% block content%}
+{{form.media}}
+<div class="container mt-5 justify-content-center" style="width:400px">
+    <div class="card shadow " >
+        <div class="card-body">
+            
+                <select class="form-select form-select-sm" id="select" aria-label=".form-select-sm example" onchange="myfunc()">
+                    <option selected>Open this select menu</option>
+                    {% for test in test %}
+                    <option value={{test.id}}>{{test}}</option>
+                    {% endfor %}
+                </select>
+            
+            <div id="data">
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+    let form = document.getElementById('select'); 
+    
+    function myfunc() { 
+       
+        var id = document.getElementById("select").value 
+        var li = [{% for test in test %}
+        {% if test.id == id %}
+        {% for item in test %}
+        {{item}},
+        {%endfor%}
+        {%endif%}
+        {%endfor%}]
+        document.getElementById('data').innerHTML = li
+
+    }
+    
+    </script>
+{%endblock%}

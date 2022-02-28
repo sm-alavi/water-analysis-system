@@ -1,0 +1,70 @@
+{% extends 'main.html' %}
+
+{%block content%}
+
+<div class="shaodw m-4 ">
+    <div>
+        <p class="badge rounded-pill bg-secondary">Stiff Template Levels</p>
+        <a href="{% url 'stifftemplatelevel-create' stifftemplate.id %}" class="btn btn-primary btn-sm rounded shadow"><i class="bi bi-plus-circle"></i> Add New</a>
+        <a href="{% url 'stifftemplate' %}" class="btn btn-secondary btn-sm rounded shadow"><i class="bi bi-arrow-90deg-left"></i> Back</a>
+
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Stiff Template Levels for Template <strong>{{stifftemplate.name}}</strong>
+        </div>
+        <div class="card-body text-center">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Level No.</th>
+                        <th>Ions</th>
+                        <th>Updated</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Level No.</th>
+                        <th>Ions</th>
+                        <th>Updated</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for item in data %}
+                    <tr>
+                        <td><strong>{{item.name}}</strong></td>
+                        <td>
+                            
+                            {% for ion in item.stifftemplatelevelions.all%}
+                            {% if ion.analysis.charge > 0 %}
+                            <strong class="badge rounded-pill bg-danger">{{ion.analysis.name}}</strong>
+                            {%else%}
+                            <strong class="badge rounded-pill bg-primary">{{ion.analysis.name}}</strong>
+                            {%endif%}
+                            {% endfor%}
+                        </td>
+                        <td>{{item.updated}}</td>
+                        <td>{{item.created}}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="{% url 'stifftemplatelevel-update' item.id %}" class="btn btn-secondary btn-sm" title="Edit"><i class="bi bi-pencil"></i></a>
+                                <a href="{% url 'stifftemplatelevel-delete' item.id %}" class="btn btn-danger btn-sm" title="Delete"><i class="bi bi-trash"></i></a>
+                                <a href="{% url 'stifftemplatelevelion' item.id %}" class="btn btn-info btn-sm" title="Modify Ions"><i class="bi bi-table"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{%endblock%}

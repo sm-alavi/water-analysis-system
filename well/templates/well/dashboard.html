@@ -2,9 +2,7 @@
 {% block content %}
 <div class="container-fluid px-4">
     <h1 class="mt-4">Dashboard</h1>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">Dashboard</li>
-    </ol>
+
 
     <div class="row">
         {% for item in summary %}
@@ -30,19 +28,19 @@
         <div class="col-xl-6">
             <div class="card mb-4">
                 <div class="card-header">
-                    <i class="fas fa-chart-area me-1"></i>
-                    Area Chart Example
+                  <i class="bi bi-pie-chart-fill"></i>
+                   Field - Pie Chart
                 </div>
-                <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                <div class="card-body"><canvas id="piechart1" width="100%" height="40"></canvas></div>
             </div>
         </div>
         <div class="col-xl-6">
             <div class="card mb-4">
                 <div class="card-header">
-                    <i class="fas fa-chart-bar me-1"></i>
-                    Bar Chart Example
+                  <i class="bi bi-pie-chart-fill"></i>
+                   Sample Point - Pie Chart
                 </div>
-                <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                <div class="card-body"><canvas id="piechart2" width="100%" height="40"></canvas></div>
             </div>
         </div>
     </div>
@@ -57,3 +55,71 @@
     </div>
 </div>
 {% endblock content %}
+
+
+{% block javascript %}
+
+<script>
+    var data = {
+          labels: [
+              {% for item in samplepoint_test %}'{{item.samplepoint__name}}',{%endfor%}
+          ],
+          datasets: [{
+            label: 'New Label',
+            data: [
+              {% for item in samplepoint_test %}{{item.total}},{%endfor%}
+            ],
+            backgroundColor: [
+              'rgb(255, 99, 132)',
+              'rgb(54, 162, 235)',
+              'rgb(255, 205, 86)'
+                      ],
+            hoverOffset: 6
+          }]
+        };
+       
+        var config = {
+          type: 'doughnut',
+          data: data,
+        };
+  
+        var myChart = new Chart(
+          document.getElementById('piechart2'),
+          config
+        );
+
+</script>
+
+<script>
+
+  var data = {
+        labels: [
+            {% for item in field_test %}'{{item.well__field__name}}',{%endfor%}
+        ],
+        datasets: [{
+          label: 'New Label',
+          data: [
+            {% for item in field_test %}{{item.total}},{%endfor%}
+          ],
+          backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)'
+                    ],
+          hoverOffset: 6
+        }]
+      };
+     
+      var config = {
+        type: 'doughnut',
+        data: data,
+      };
+
+      var myChart = new Chart(
+        document.getElementById('piechart1'),
+        config
+      );
+
+</script>
+
+{%endblock javascript %}

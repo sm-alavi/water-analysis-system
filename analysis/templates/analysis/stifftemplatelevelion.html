@@ -4,19 +4,20 @@
 
 <div class="shaodw m-4 ">
     <div>
-        <p class="badge rounded-pill bg-secondary">Stiff Templates</p>
-        <a href="{% url 'stifftemplate-create' %}" class="btn btn-primary btn-sm rounded shadow"><i class="bi bi-plus-circle"></i> Add New</a>
+        <p class="badge rounded-pill bg-secondary">Stiff Template Level Ions</p>
+        <a href="{% url 'stifftemplatelevelion-create' stifftemplatelevel.id %}" class="btn btn-primary btn-sm rounded shadow"><i class="bi bi-plus-circle"></i> Add New</a>
+        <a href="{% url 'stifftemplatelevel' stifftemplatelevel.stiff_template.id %}" class="btn btn-secondary btn-sm rounded shadow"><i class="bi bi-arrow-90deg-left"></i> Back</a>
     </div>
     <div class="card mb-4">
-        <div class="card-header">
+        <div class="card-header text-center">
             <i class="fas fa-table me-1"></i>
-            Stiff Templates
+            Stiff Template Ions for Level <strong>{{stifftemplatelevel.name}} </strong> of template <strong> {{stifftemplatelevel.stiff_template.name}}</strong>
         </div>
-        <div class="card-body text-center">
+        <div class="card-body">
             <table id="datatablesSimple">
                 <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>Ion</th>
                         <th>Updated</th>
                         <th>Created</th>
                     
@@ -24,7 +25,7 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>Name</th>
+                        <th>Ion</th>
                         <th>Updated</th>
                         <th>Created</th>
                     </tr>
@@ -32,15 +33,12 @@
                 <tbody>
                     {% for item in data %}
                     <tr>
-                        <td>{{item.name}}</td>
+                        <td>{{item.analysis.name}}</td>
                         <td>{{item.updated}}</td>
                         <td>{{item.created}}</td>
                         <td>
                             <div class="btn-group">
-                                <a href="{% url 'stifftemplate-view' item.id %}" class="btn btn-primary btn-sm" title="View"><i class="bi bi-eye"></i></a>
-                                <a href="{% url 'stifftemplate-update' item.id %}" class="btn btn-secondary btn-sm" title="Edit"><i class="bi bi-pencil"></i></a>
-                                <a href="{% url 'stifftemplate-delete' item.id %}" class="btn btn-danger btn-sm" title="Delete"><i class="bi bi-trash"></i></a>
-                                <a href="{% url 'stifftemplatelevel' item.id %}" class="btn btn-info btn-sm" title="Modify Analysis"><i class="bi bi-table"></i></a>
+                                <a href="{% url 'stifftemplatelevelion-delete' item.id %}" class="btn btn-danger btn-sm" title="Delete"><i class="bi bi-trash"></i></a>
                             </div>
                         </td>
                     </tr>

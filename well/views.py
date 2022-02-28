@@ -6,6 +6,7 @@ from . import forms
 from django.contrib import messages
 from analysis.models import Test, SamplePoint
 from dataclasses import dataclass
+from django.db.models import Count
 
 # Create your views here.
 def home(request):
@@ -23,6 +24,9 @@ def loadDashboard(request):
     if not request.user.is_authenticated:
         return redirect('login')
     
+    field_test = Test.objects.values('well__field__name').annotate(total=Count('id'))
+    samplepoint_test = Test.objects.values('samplepoint__name').annotate(total=Count('id'))
+    
     summary=[
         ModelItemsCount('Tests',Test.objects.count(), 'test'),
         ModelItemsCount('Wells',models.Well.objects.count(), 'well'),
@@ -31,7 +35,9 @@ def loadDashboard(request):
     ]
 
     context={
-        'summary':summary
+        'summary':summary,
+        'field_test':field_test,
+        'samplepoint_test':samplepoint_test
     }
 
     return render(request, 'well/dashboard.html', context)

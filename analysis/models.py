@@ -75,7 +75,7 @@ class StiffTemplateLevel(models.Model):
         return self.name
 
 class StiffTemplateLevelIon(models.Model):
-    stiff_template_level = models.ForeignKey(StiffTemplateLevel, on_delete=models.CASCADE)
+    stiff_template_level = models.ForeignKey(StiffTemplateLevel, on_delete=models.CASCADE, related_name='stifftemplatelevelions')
     analysis = models.ForeignKey(Analysis, on_delete=models.CASCADE)
     updated=models.DateTimeField(auto_now=True)
     created=models.DateTimeField(auto_now_add=True)

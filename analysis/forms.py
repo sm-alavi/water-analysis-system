@@ -107,10 +107,11 @@ class StiffTemplateForm(forms.ModelForm):
 class StiffTemplateLevelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs) # Call to ModelForm constructor
+        #self.fields['stiff_template'].disabled = True
         for k in self.fields:
             self.fields[k].widget.attrs['style'] = 'width:250px;'
             self.fields[k].widget.attrs['class'] = 'form-control'
-
+        self.fields['stiff_template'].widget.attrs['readonly'] = True
     class Meta:
         model = models.StiffTemplateLevel
         fields = ('stiff_template','name',)
@@ -122,6 +123,7 @@ class StiffTemplateLevelIonForm(forms.ModelForm):
         for k in self.fields:
             self.fields[k].widget.attrs['style'] = 'width:250px;'
             self.fields[k].widget.attrs['class'] = 'form-control'
+        self.fields['stiff_template_level'].widget.attrs['readonly'] = True
 
     class Meta:
         model = models.StiffTemplateLevelIon

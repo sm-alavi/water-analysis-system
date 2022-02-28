@@ -1,6 +1,6 @@
 {% load static %}
 <div id="layoutSidenav_nav">
-    <nav class="sb-sidenav accordion sb-sidenav-primary bg-light shadow" id="sidenavAccordion">
+    <nav class="sb-sidenav sb-sidenav-light accordion shadow" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
             <div class="nav">
                 {% comment %} <div class="sb-sidenav-menu-heading">Core</div> {% endcomment %}
@@ -107,9 +107,9 @@
                 </a>
             </div>
         </div>
-        <div class="sb-sidenav-footer">
+        <div class="sb-sidenav-footer ">
             <div class="small">Logged in as:</div>
-            <div class="badge rounded-pill bg-primary">
+            <div class="badge rounded-pill bg-secondary">
                 {{request.user.username}} - {{request.user.get_full_name}}
             </div>
         </div>

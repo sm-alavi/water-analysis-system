@@ -29,9 +29,20 @@ urlpatterns = [
     path('stifftemplate/', views.stifftemplateLoad, name='stifftemplate'),
     path('stifftemplate/<str:pk>', views.stifftemplateLoad, name='stifftemplate-view'),
     path('stifftemplate-create/', views.stifftemplateCreate, name='stifftemplate-create'),
-    path('stifftemplate-update/<str:pk>', views.samplepointUpdate, name='stifftemplate-update'),
-    path('stifftemplate-delete/<str:pk>', views.samplepointDelete, name='stifftemplate-delete'),
+    path('stifftemplate-update/<str:pk>', views.stifftemplateUpdate, name='stifftemplate-update'),
+    path('stifftemplate-delete/<str:pk>', views.stifftemplateDelete, name='stifftemplate-delete'),
 
-    path('stifftemplatelevel/<str:pk>', views.stifftemplateLoad, name='stifftemplatelevel'),
+    path('stifftemplatelevel/<str:pk>', views.stifftemplatelevelLoad, name='stifftemplatelevel'),
+    #path('stifftemplatelevel/<str:pk>', views.stifftemplateLoad, name='stifftemplatelevel-view'),
+    path('stifftemplatelevel-create/<str:pk>', views.stifftemplatelevelCreate, name='stifftemplatelevel-create'),
+    path('stifftemplatelevel-update/<str:pk>', views.stifftemplatelevelUpdate, name='stifftemplatelevel-update'),
+    path('stifftemplatelevel-delete/<str:pk>', views.stifftemplatelevelDelete, name='stifftemplatelevel-delete'),
+
+    path('stifftemplatelevelion/<str:pk>', views.stifftemplatelevelionLoad, name='stifftemplatelevelion'),
+    #path('stifftemplatelevel/<str:pk>', views.stifftemplateLoad, name='stifftemplatelevel-view'),
+    path('stifftemplatelevelion-create/<str:pk>', views.stifftemplatelevelionCreate, name='stifftemplatelevelion-create'),
+    path('stifftemplatelevelion-delete/<str:pk>', views.stifftemplatelevelionDelete, name='stifftemplatelevelion-delete'),
+
+    path('create_note/', views.createNote, name="note" )
 
 ]

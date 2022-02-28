@@ -1,10 +1,12 @@
 from contextlib import redirect_stderr
 from random import sample
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from . import forms
 from . import models
 from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib import messages
 
 # Create your views here.
 
@@ -212,3 +214,98 @@ def stifftemplateCreate(request):
             return redirect('stifftemplate')
     context = {'form':form}
     return render(request, 'form.html', context)
+
+
+def stifftemplateUpdate(request, pk):
+    stifftemplate = models.StiffTemplate.objects.get(id=int(pk))
+    form = forms.StiffTemplateForm(instance=stifftemplate)
+    if request.method=="POST":
+        form = forms.StiffTemplateForm(request.POST, instance = stifftemplate)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"{str(request.POST.get('name')).title()} updated succesfully.")
+            return redirect('stifftemplate')
+    context = {'form':form}
+    return render(request, 'form.html', context)
+
+def stifftemplateDelete(request, pk):
+    stifftemplate = models.StiffTemplate.objects.get(id=int(pk))
+    stifftemplate.delete()
+    messages.success(request, f"{stifftemplate.name.title()} deleted succesfully.")
+    return redirect('stifftemplate')
+
+def stifftemplatelevelLoad(request, pk):
+    stifftemplate = models.StiffTemplate.objects.get(id=int(pk))
+    stifftemplatelevel = models.StiffTemplateLevel.objects.filter(stiff_template=stifftemplate)
+    context = {
+        'data':stifftemplatelevel,
+        'stifftemplate':stifftemplate}
+
+    return render(request, 'analysis/stifftemplatelevel.html', context)
+
+def stifftemplatelevelCreate(request, pk):
+    form = forms.StiffTemplateLevelForm(initial={'stiff_template':int(pk)})
+    if request.method=="POST":
+        form = forms.StiffTemplateLevelForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('stifftemplatelevel', pk=str(pk))
+    context = {'form':form}
+    return render(request, 'form.html', context)
+
+def stifftemplatelevelUpdate(request, pk):
+    stifftemplatelevel = models.StiffTemplateLevel.objects.get(id=int(pk))
+    idp = stifftemplatelevel.stiff_template_id
+    form = forms.StiffTemplateLevelForm(instance = stifftemplatelevel)
+    if request.method=="POST":
+        form = forms.StiffTemplateLevelForm(request.POST,instance = stifftemplatelevel)
+        if form.is_valid():
+            form.save()
+            return redirect('stifftemplatelevel', pk=str(idp))
+    context = {'form':form}
+    return render(request, 'form.html', context)
+
+def stifftemplatelevelDelete(request, pk):
+    stifftemplatelevel = models.StiffTemplateLevel.objects.get(id=int(pk))
+    pid = stifftemplatelevel.stiff_template_id
+    stifftemplatelevel.delete()
+    messages.success(request, f"{stifftemplatelevel.name.title()} deleted succesfully.")
+    return redirect('stifftemplatelevel', pk=pid)
+
+
+def stifftemplatelevelionLoad(request, pk):
+    stifftemplatelevel= models.StiffTemplateLevel.objects.get(id=int(pk))
+    stifftemplatelevelion = models.StiffTemplateLevelIon.objects.filter(stiff_template_level_id=stifftemplatelevel)
+    context = {
+        'data':stifftemplatelevelion,
+        'stifftemplatelevel':stifftemplatelevel}
+
+    return render(request, 'analysis/stifftemplatelevelion.html', context)
+
+
+def stifftemplatelevelionCreate(request, pk):
+    form = forms.StiffTemplateLevelIonForm(initial={'stiff_template_level':int(pk)})
+    if request.method=="POST":
+        form = forms.StiffTemplateLevelIonForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('stifftemplatelevelion', pk=str(pk))
+    context = {'form':form}
+    return render(request, 'form.html', context)
+
+def stifftemplatelevelionDelete(request, pk):
+    stifftemplatelevelion= models.StiffTemplateLevelIon.objects.get(id=int(pk))
+    pid = stifftemplatelevelion.stiff_template_level_id
+    stifftemplatelevelion.delete()
+    messages.success(request, f"{stifftemplatelevelion.analysis.name.title()} deleted succesfully.")
+    return redirect('stifftemplatelevelion', pk=pid)
+
+def createNote(request):
+    tests = models.Test.objects.all()
+    context={'test':tests}
+    if request.method == 'POST': 
+        test_id = request.POST.get('test_id') 
+        test = models.Test.objects.get(id=int(test_id))
+        return JsonResponse({'test_data':test}) 
+
+    return render(request, 'analysis/radar.html', context)
