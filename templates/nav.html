@@ -1,29 +1,77 @@
 {% load static %}
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-primary">
-            <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="{% url 'dashboard' %}">Water Analysis</a>
-            <!-- Sidebar Toggle-->
-            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-            <!-- Navbar Search-->
-            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for tests" aria-label="Search for tests" aria-describedby="btnNavbarSearch" />
-                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-                </div>
-            </form> 
-            <!-- Navbar-->
-            <div class="d-md-inline-block justify-content-end">
-                <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-6" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i>{{request.user.get_full_name}}</a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
-                            <li><a class="dropdown-item" href="{% url 'note' %}">Activity Log</a></li>
-                            <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+    
+        <nav class="navbar navbar-expand navbar-dark bg-dark shadow-sm">
+            <div class="container-fluid">
+              <a class="navbar-brand ps-3" href="{% url 'dashboard' %}">Water Analysis</a>
+              <div class="collapse navbar-collapse" >
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}">Dashboard</a>
+                  </li>
+                
+                  {% comment "Well Menue" %}{% endcomment %}
+                  <li class="nav-item dropdown"> 
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Wells
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item" href="{% url 'country' %}">Country</a></li>
+                      <li><a class="dropdown-item" href="{% url 'field' %}">Field</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" href="{% url 'well' %}">Wells</a></li>
+                    </ul>
+                  </li>
+                  {% comment "Test Menue" %}{% endcomment %}
+                  <li class="nav-item dropdown"> 
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Tests
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item" href="{% url 'analysis' %}">Analysis</a></li>
+                      <li><a class="dropdown-item" href="{% url 'metadata' %}">Properties</a></li>
+                      <li><a class="dropdown-item" href="{% url 'samplepoint' %}">Sample Point</a></li>
+                      <li><a class="dropdown-item" href="{% url 'test' %}">Tests</a></li>
+                    </ul>
+                  </li>
+
+                  {% comment "Settings Menue" %}{% endcomment %}
+                  <li class="nav-item dropdown"> 
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Settings
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item" href="{% url 'stifftemplate' %}">Stiff Diagram</a></li>
             
-        </nav>
+                    </ul>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link disabled">Disabled</a>
+                  </li>
+
+                </ul>
+                <form class="d-flex d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                    <div class="input-group">
+                        <input class="form-control" type="text" placeholder="Search for tests" aria-label="Search for tests" aria-describedby="btnNavbarSearch" />
+                        <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                    </div>
+                </form> 
+
+                <div class="d-md-inline-block justify-content-end">
+                    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4 navbar-dark">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-6" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i>{{request.user.get_full_name}}</a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="{% url 'user' %}">Users</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+              </div>
+            </div>
+          </nav>

@@ -20,6 +20,7 @@
                         <th>Abbreviation</th>
                         <th>charge</th>
                         <th>Molecular Weight</th>
+                        <th>Equivalent Weight</th>
                         <th>Updated</th>
                         <th>Created</th>
                         <th>Action</th>
@@ -31,6 +32,7 @@
                         <th>Abbreviation</th>
                         <th>charge</th>
                         <th>Molecular Weight</th>
+                        <th>Equivalent Weight</th>
                         <th>Updated</th>
                         <th>Created</th>
                         <th>Action</th>
@@ -43,11 +45,11 @@
                         <td>{{analysis.abbreviation}}</td>
                         <td>{{analysis.charge}}</td>
                         <td>{{analysis.molecular_weight}}</td>
+                        <td>{{analysis.equivalent_weight}}</td>
                         <td>{{analysis.updated}}</td>
                         <td>{{analysis.created}}</td>
                         <td>
                             <div class="btn-group">
-                                <a href="" class="btn btn-primary btn-sm" title="View"><i class="bi bi-eye"></i></a>
                                 <a href="{% url 'analysis-update' analysis.id %}" class="btn btn-secondary btn-sm" title="Edit"><i class="bi bi-pencil"></i></a>
                                 <a href="{% url 'analysis-delete' analysis.id %}" class="btn btn-danger btn-sm" titile="Delete"><i class="bi bi-trash"></i></a>
                             </div>

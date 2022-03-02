@@ -1,0 +1,166 @@
+{% extends 'main.html' %}
+
+{% block content%}
+{{form.media}}
+<div class="container mt-1 justify-content-center p-4">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card shadow">
+                <div class="card-header text-white bg-primary ">
+                    Filter Panel
+                </div>
+                <div class="card-body">
+                    <form method="post" onsubmit="return formSubmit()">
+                        <div>
+                            <div class="form-group">
+                                <label for="fromdate">From <small>[Sampling Date]</small></label>
+                                <input type="date" name="from" class="form-control" id="fromdate" placeholder="date">
+                            </div>
+                            <div class="form-group">
+                                <label for="todate">To <small>[Sampling Date]</small></label>
+                                <input type="date" name="to" class="form-control" id="todate" placeholder="date">
+                            </div>
+                            <div class="form-group">
+                                <label for="samplepoint">Sample Point</label>
+                                <select name="samplepoint" id="samplepoint" class="form-control">
+                                    {% for sp in samplepoint %}
+                                    <option value={{sp.id}} selected >{{sp.name}}</option>
+                                    {%endfor%}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="ionselect">Select Ions</label>
+                                <select  id="ionselect" class="form-select" multiple>
+                                    {% for analysis in analysis %}
+                                    <option selected value={{analysis.id}}>{{analysis.name}}</option>
+                                    {%endfor%}
+                                </select>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary"> Filter </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-md-9">
+            <div class="card shadow " >
+                <div class="card-header text-white bg-primary">
+                    Radar Chart
+                </div>
+                <div class="card-body">
+                    <canvas id="radar" width="100%" height="40"></canvas>     
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    
+</div>
+
+
+
+
+{% endblock %}
+
+
+
+{% block javascript %}
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.9.1/axios.js'></script>
+
+
+<script>
+    function formSubmit() {
+        event.preventDefault()
+        axiosSetup()
+    }
+
+    function axiosSetup() {
+        // for geting the input value to pass at server for collecting there value and save in db
+        let data = new FormData()
+        data.append('from', document.querySelector('input[name="from"]').value)
+        data.append('to', document.querySelector('input[name="to"]').value)
+        data.append('samplepoint', document.querySelector('select[name="samplepoint"]').value)
+        data.append('well_id', '{{well_id}}')
+        data.append('csrfmiddlewaretoken', '{{csrf_token}}') // setup csrf_token as a post request
+        var options = document.getElementById("ionselect").selectedOptions;
+        var ions = Array.from(options).map(function(value){return value.attributes.value.value})
+        console.log(ions)
+        // ....axios post request
+        let url = '{% url "radarchart-filter" %}' // self request so we call developer
+        let tests = ''
+        let labels = []
+        let datasets=[]
+        
+var color = 
+        axios.post(url, data)
+            .then(function(res){
+                tests = res.data.tests,
+                labels = res.data.analysis.filter(function(item){return ions.includes(item.id.toString())}).map(function(item){return item.name}),
+                datasets = res.data.tests.map(function(item){
+                    var r = Math.floor(Math.random() * 256);
+                    var g = Math.floor(Math.random() * 256);
+                    var b = Math.floor(Math.random() * 256);
+                    var rgb = 'rgb('+ r +','+g+','+b+')'
+                    var rgba = 'rgba('+ r +','+g+','+b+ ','+ 0.2 + ')'
+                    return {
+                        label:item.lab_number + ' - ' +item.sampling_date + ' - ' +item.well[0].name ,
+                        data: item.analysis.filter(function(analysis){return ions.includes(analysis.analysis_id.toString())}).map(function(analysis){return analysis.meqv}),
+                        fill: true,
+                        backgroundColor: rgba,
+                        borderColor: rgb,
+                        pointBackgroundColor: rgb,
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: rgb,
+                      }
+                })
+                
+            })
+            .catch(e => console.log(e))
+            .then(function()
+            {
+                console.log(tests)
+                var data = {
+                    labels: labels,
+                
+                    datasets: datasets,
+                
+                  };
+                
+                  const config = {
+                    type: 'radar',
+                    data: data,
+                    options: {
+                      elements: {
+                        line: {
+                          borderWidth: 3
+                        }
+                      }
+                    },
+                  };
+                  
+                 
+                  if (window.radarchart != null)
+                  {
+                      window.radarchart.destroy()
+                  }
+
+                  window.radarchart = new Chart(
+                        document.getElementById('radar'),
+                        config
+                      );
+                
+            })
+    }
+
+  
+</script>
+
+
+
+{%endblock javascript %}

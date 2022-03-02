@@ -8,7 +8,7 @@
         <a href="{% url 'stifftemplate-create' %}" class="btn btn-primary btn-sm rounded shadow"><i class="bi bi-plus-circle"></i> Add New</a>
     </div>
     <div class="card mb-4">
-        <div class="card-header">
+        <div class="card-header bg-secondary text-white">
             <i class="fas fa-table me-1"></i>
             Stiff Templates
         </div>
@@ -37,10 +37,9 @@
                         <td>{{item.created}}</td>
                         <td>
                             <div class="btn-group">
-                                <a href="{% url 'stifftemplate-view' item.id %}" class="btn btn-primary btn-sm" title="View"><i class="bi bi-eye"></i></a>
                                 <a href="{% url 'stifftemplate-update' item.id %}" class="btn btn-secondary btn-sm" title="Edit"><i class="bi bi-pencil"></i></a>
                                 <a href="{% url 'stifftemplate-delete' item.id %}" class="btn btn-danger btn-sm" title="Delete"><i class="bi bi-trash"></i></a>
-                                <a href="{% url 'stifftemplatelevel' item.id %}" class="btn btn-info btn-sm" title="Modify Analysis"><i class="bi bi-table"></i></a>
+                                <a href="{% url 'stifftemplatelevel' item.id %}" class="btn btn-info btn-sm" title="Modify Levels"><i class="bi bi-table"></i></a>
                             </div>
                         </td>
                     </tr>

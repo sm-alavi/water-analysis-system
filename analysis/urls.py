@@ -43,6 +43,8 @@ urlpatterns = [
     path('stifftemplatelevelion-create/<str:pk>', views.stifftemplatelevelionCreate, name='stifftemplatelevelion-create'),
     path('stifftemplatelevelion-delete/<str:pk>', views.stifftemplatelevelionDelete, name='stifftemplatelevelion-delete'),
 
-    path('create_note/', views.createNote, name="note" )
+
+    path('radarchart/<str:pk>', views.radarchartLoad, name="radarchart" ),
+    path('radarchart-filter/', views.radarchartFilter, name="radarchart-filter" )
 
 ]

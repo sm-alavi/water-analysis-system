@@ -44,9 +44,10 @@
                         <td>{{well.created}}</td>
                         <td>
                             <div class="btn-group shadow">
-                                <a href="" class="btn btn-primary btn-sm" title="View"><i class="bi bi-eye"></i></a>
                                 <a href="{% url 'well-update' well.id %}" class="btn btn-secondary btn-sm" title="Edit"><i class="bi bi-pencil"></i></a>
                                 <a href="{% url 'well-delete' well.id %}" class="btn btn-danger btn-sm" titile="Delete"><i class="bi bi-trash"></i></a>
+                                <a href="{% url 'radarchart' well.id %}" class="btn btn-warning btn-sm" titile="Charts"><i class="bi bi-graph-up-arrow"></i></a>
+
                             </div>
                         </td>
                     </tr>

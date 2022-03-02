@@ -5,19 +5,26 @@
 <body>
 
     {% if request.user.is_authenticated %}
-    <div class="sb-nav-fixed">
-        {% include 'nav.html' %} 
-        <div id="layoutSidenav">
-            {% include 'sidebar.html' %}
-            <div id="layoutSidenav_content">
-                {% include 'message.html' %} 
+        
+        <div class="container-float min-vh-100">
+            {% include 'nav.html' %} 
 
+            <div class="p-2">
+                <main>
+                    {% include 'message.html' %} 
                     {% block content%}
-                    {% endblock %}    
-               {% include 'footer.html' %}
+                    {% endblock %}
+                </main>
+           
+            </div>
+            
+            <div class="position-fixed w-100" style="bottom:0">
+                {% include 'footer.html' %}
             </div>
         </div>
-    </div>
+                
+
+               
     {% else %}
     {% block logincontent%}
     {% endblock %} 

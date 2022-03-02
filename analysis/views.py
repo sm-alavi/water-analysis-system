@@ -7,15 +7,18 @@ from . import models
 from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
+@login_required
 def analysisLoad(request):
     analysis = models.Analysis.objects.all()
     context={'analysis':analysis}
 
     return render(request, 'analysis/analysis.html', context)
 
+@login_required
 def analysisCreate(request):
     form = forms.AnalysisForm()
     
@@ -27,6 +30,7 @@ def analysisCreate(request):
     context = {'form':form}      
     return render(request, 'form.html', context)
 
+@login_required
 def analysisUpdate(request, pk):
     analysis = models.Analysis.objects.get(id=int(pk))
     form = forms.AnalysisForm(instance=analysis)
@@ -39,17 +43,19 @@ def analysisUpdate(request, pk):
 
     return render(request, 'form.html', context)
 
+@login_required
 def analysisDelete(request, pk):
     analysis = models.Analysis.objects.get(id=int(pk))
     analysis.delete()
     return redirect('analysis')
 
-
+@login_required
 def samplepointLoad(request):
     samplepoint = models.SamplePoint.objects.all()
     context={'samplepoint':samplepoint}
     return render(request, 'analysis/samplepoint.html', context)
 
+@login_required
 def samplepointCreate(request):
     form = forms.SamplePointForm()
     if request.method == "POST":
@@ -60,6 +66,7 @@ def samplepointCreate(request):
     context={'form':form}
     return render(request, 'form.html', context)
 
+@login_required
 def samplepointUpdate(request, pk):
     samplepoint = models.SamplePoint.objects.get(id=int(pk))
     form = forms.SamplePointForm(instance=samplepoint)
@@ -71,16 +78,19 @@ def samplepointUpdate(request, pk):
     context={'form':form}
     return render(request, 'form.html', context)
 
+@login_required
 def samplepointDelete(request, pk):
     samplepoint = models.SamplePoint.objects.get(id=int(pk))
     samplepoint.delete()
     return redirect('samplepoint')
 
+@login_required
 def testLoad(request):
     test = models.Test.objects.all()
     context={'test':test}
     return render(request, 'analysis/test.html', context)
 
+@login_required
 def testCreate(request):
     form = forms.TestForm()
     if request.method=="POST":
@@ -90,6 +100,7 @@ def testCreate(request):
     context={'form':form}
     return render(request, 'form.html', context)
 
+@login_required
 def testUpdate(request, pk):
     test=models.Test.objects.get(id=int(pk))
     form=forms.TestForm(instance=test)
@@ -97,15 +108,17 @@ def testUpdate(request, pk):
         form=forms.TestForm(request.POST, instance=test)
         if form.is_valid:
             form.save()
-            return redirect('form')
+            return redirect('test')
     context={'form':form}
     return render(request, 'form.html', context)
 
+@login_required
 def testDelete(request, pk):
     test = models.Test.objects.get(id=int(pk))
     test.delete()
     return redirect('test')
-    
+
+@login_required    
 def testView(request, pk):
     test=models.Test.objects.get(id=int(pk))
 
@@ -118,6 +131,7 @@ def testView(request, pk):
     }
     return render(request, 'analysis/testview.html',context)
 
+@login_required
 def testanalysisModify(request, pk):
     testanalysis = models.TestAnalysis.objects.filter(test=int(pk))
     initials = {item.analysis.name:item.value for item in testanalysis}
@@ -131,6 +145,8 @@ def testanalysisModify(request, pk):
                 val = data[item.name]
                 try:
                     testanalysis = models.TestAnalysis.objects.get(Q(test=int(pk)) & Q(analysis = int(item.id)))
+                    if val == '':
+                        val = None
                     testanalysis.value = val
                     testanalysis.save()
                 except ObjectDoesNotExist:
@@ -141,13 +157,14 @@ def testanalysisModify(request, pk):
     context={'form':form}
     return render(request, 'form.html', context)
 
-
+@login_required
 def metadataLoad(request):
     metadata = models.MetaData.objects.all()
     context={'metadata':metadata}
 
     return render(request, 'analysis/metadata.html', context)
 
+@login_required
 def metadataCreate(request):
     form = forms.MetadataForm()
     
@@ -159,6 +176,7 @@ def metadataCreate(request):
     context = {'form':form}      
     return render(request, 'form.html', context)
 
+@login_required
 def metadataUpdate(request, pk):
     metadata = models.MetaData.objects.get(id=int(pk))
     form = forms.MetadataForm(instance=metadata)
@@ -171,11 +189,13 @@ def metadataUpdate(request, pk):
 
     return render(request, 'form.html', context)
 
+@login_required
 def metadataDelete(request, pk):
     metadata = models.MetaData.objects.get(id=int(pk))
     metadata.delete()
     return redirect('metadata')   
 
+@login_required
 def testmetadataModify(request, pk):
     testmetadata = models.TestMetadata.objects.filter(test=int(pk))
     initials = {item.metadata.name:item.value for item in testmetadata}
@@ -199,12 +219,13 @@ def testmetadataModify(request, pk):
     context={'form':form}
     return render(request, 'form.html', context)
 
-
+@login_required
 def stifftemplateLoad(request):
     stifftemplate = models.StiffTemplate.objects.all()
     context = {'data':stifftemplate}
     return render(request, 'analysis/stifftemplate.html', context)
 
+@login_required
 def stifftemplateCreate(request):
     form = forms.StiffTemplateForm()
     if request.method=="POST":
@@ -215,7 +236,7 @@ def stifftemplateCreate(request):
     context = {'form':form}
     return render(request, 'form.html', context)
 
-
+@login_required
 def stifftemplateUpdate(request, pk):
     stifftemplate = models.StiffTemplate.objects.get(id=int(pk))
     form = forms.StiffTemplateForm(instance=stifftemplate)
@@ -228,12 +249,14 @@ def stifftemplateUpdate(request, pk):
     context = {'form':form}
     return render(request, 'form.html', context)
 
+@login_required
 def stifftemplateDelete(request, pk):
     stifftemplate = models.StiffTemplate.objects.get(id=int(pk))
     stifftemplate.delete()
     messages.success(request, f"{stifftemplate.name.title()} deleted succesfully.")
     return redirect('stifftemplate')
 
+@login_required
 def stifftemplatelevelLoad(request, pk):
     stifftemplate = models.StiffTemplate.objects.get(id=int(pk))
     stifftemplatelevel = models.StiffTemplateLevel.objects.filter(stiff_template=stifftemplate)
@@ -243,6 +266,7 @@ def stifftemplatelevelLoad(request, pk):
 
     return render(request, 'analysis/stifftemplatelevel.html', context)
 
+@login_required
 def stifftemplatelevelCreate(request, pk):
     form = forms.StiffTemplateLevelForm(initial={'stiff_template':int(pk)})
     if request.method=="POST":
@@ -253,6 +277,7 @@ def stifftemplatelevelCreate(request, pk):
     context = {'form':form}
     return render(request, 'form.html', context)
 
+@login_required
 def stifftemplatelevelUpdate(request, pk):
     stifftemplatelevel = models.StiffTemplateLevel.objects.get(id=int(pk))
     idp = stifftemplatelevel.stiff_template_id
@@ -265,6 +290,7 @@ def stifftemplatelevelUpdate(request, pk):
     context = {'form':form}
     return render(request, 'form.html', context)
 
+@login_required
 def stifftemplatelevelDelete(request, pk):
     stifftemplatelevel = models.StiffTemplateLevel.objects.get(id=int(pk))
     pid = stifftemplatelevel.stiff_template_id
@@ -272,7 +298,7 @@ def stifftemplatelevelDelete(request, pk):
     messages.success(request, f"{stifftemplatelevel.name.title()} deleted succesfully.")
     return redirect('stifftemplatelevel', pk=pid)
 
-
+@login_required
 def stifftemplatelevelionLoad(request, pk):
     stifftemplatelevel= models.StiffTemplateLevel.objects.get(id=int(pk))
     stifftemplatelevelion = models.StiffTemplateLevelIon.objects.filter(stiff_template_level_id=stifftemplatelevel)
@@ -282,7 +308,7 @@ def stifftemplatelevelionLoad(request, pk):
 
     return render(request, 'analysis/stifftemplatelevelion.html', context)
 
-
+@login_required
 def stifftemplatelevelionCreate(request, pk):
     form = forms.StiffTemplateLevelIonForm(initial={'stiff_template_level':int(pk)})
     if request.method=="POST":
@@ -293,6 +319,7 @@ def stifftemplatelevelionCreate(request, pk):
     context = {'form':form}
     return render(request, 'form.html', context)
 
+@login_required
 def stifftemplatelevelionDelete(request, pk):
     stifftemplatelevelion= models.StiffTemplateLevelIon.objects.get(id=int(pk))
     pid = stifftemplatelevelion.stiff_template_level_id
@@ -300,6 +327,7 @@ def stifftemplatelevelionDelete(request, pk):
     messages.success(request, f"{stifftemplatelevelion.analysis.name.title()} deleted succesfully.")
     return redirect('stifftemplatelevelion', pk=pid)
 
+@login_required
 def createNote(request):
     tests = models.Test.objects.all()
     context={'test':tests}
@@ -309,3 +337,41 @@ def createNote(request):
         return JsonResponse({'test_data':test}) 
 
     return render(request, 'analysis/radar.html', context)
+
+@login_required
+def radarchartLoad(request, pk):
+    testanalysis = models.TestAnalysis.objects.filter(test__well=int(pk))
+    tests = models.Test.objects.filter(well=int(pk))
+    analysis = models.Analysis.objects.all()
+    samplepoints = models.SamplePoint.objects.all()
+    context = {
+        'testanalysis':testanalysis, 
+        'tests':tests,
+        'analysis':analysis, 
+        'well_id':int(pk),
+        'samplepoint':samplepoints,
+        }
+    return render(request, 'analysis/radarchart.html', context)
+
+@login_required
+def radarchartFilter(request):
+    if request.method == "POST":
+        from_date = request.POST.get("from")
+        to_date = request.POST.get("to")
+        sp = request.POST.get("samplepoint")
+        well_id = request.POST.get("well_id")
+
+        testanalysis = models.TestAnalysis.objects.filter(Q(test__well=int(well_id)) & 
+        Q(test__sampling_date__date__range=[from_date, to_date]) & Q(test__samplepoint = int(sp)))
+        tests = models.Test.objects.filter(
+            Q(sampling_date__date__range=[from_date, to_date]),
+            Q(samplepoint=int(sp)), 
+            Q(well=int(well_id))
+            )
+        analysis = models.Analysis.objects.all()
+        context = {
+            'tests':[item.get_json() for item in tests],
+            'analysis':list(analysis.values()),
+        }
+
+    return JsonResponse(context, safe=False)

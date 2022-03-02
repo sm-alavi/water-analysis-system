@@ -1,23 +1,26 @@
 {% extends 'main.html' %}
 
+
+
 {% block content%}
+
 {{form.media}}
-<div class="container mt-5 justify-content-center" style="width:{{width}}px">
-    <div class="card shadow " >
+<div class="container mt-5 justify-content-center w-50">
+    <div class="card shadow d-inline-block justify-centent-center" >
         <div class="card-body">
             <form method="POST" action="">
                 {% csrf_token %}
-                <div class="form-group mb-3 row">
+                <div class="form-group mb-2 row">
                   {% for field in form %}
-
-                   
-                    <label class="col-sm-5 col-form-label">{{field.label}}</label>
-                    <div class="col-sm-7 mb-2">
-                        {{field}}
+                  <div class="row">
+                    <label class="col-sm-4 col-form-label">{{field.label}}</label>
+                    <div class="col-sm-8 mb-2 ">
+                        {{field}} 
+                        <small class="text-muted">{{field.help_text}}</small>
                     </div>
-                   
-                   
+                  </div>                   
                     
+                   
                     {% endfor %}
                     
                     <div class="container mt-3" >
@@ -30,7 +33,5 @@
         </div>
     </div>
 </div>
-
-
 
 {% endblock %}

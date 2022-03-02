@@ -3,9 +3,9 @@
 
 {% block content %}
 
-<div class="container shadow w-75">
-    <div class="d-flex flex-row-reverse mt-3 align-right float">
-        <a href="{% url 'test' %}" class="btn btn-secondary btn-sm rounded shadow"><i class="bi bi-arrow-90deg-left"></i> Back</a>
+<div class="container shadow w-75 mt-3 p-3 border-dark">
+    <div class="d-flex flex-row-reverse align-right float">
+        <a href="{% url 'test' %}" class="btn btn-secondary btn-sm rounded shadow-sm"><i class="bi bi-arrow-90deg-left"></i> Back</a>
     </div>
     <div>
         <H4>Test Data</H4>
@@ -217,10 +217,11 @@
     labels: [
       {% for item in testanalysis %}'{{item.analysis.name}}',{%endfor%}
     ],
+
     datasets: [{
       label:'',
       data: [
-        {% for item in testanalysis %} {{item.value}},{%endfor%}
+        {% for item in testanalysis %} {{item.value}}, {%endfor%}
       ],
       fill: true,
       backgroundColor: 'rgba(255, 99, 132, 0.2)',

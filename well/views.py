@@ -7,6 +7,7 @@ from django.contrib import messages
 from analysis.models import Test, SamplePoint
 from dataclasses import dataclass
 from django.db.models import Count
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
@@ -19,10 +20,8 @@ class ModelItemsCount:
     count:int
     url:str
 
+@login_required
 def loadDashboard(request):
-
-    if not request.user.is_authenticated:
-        return redirect('login')
     
     field_test = Test.objects.values('well__field__name').annotate(total=Count('id'))
     samplepoint_test = Test.objects.values('samplepoint__name').annotate(total=Count('id'))
@@ -42,6 +41,7 @@ def loadDashboard(request):
 
     return render(request, 'well/dashboard.html', context)
 
+@login_required
 def countryLoad(request, pk=None):
 
     countries = models.Country.objects.all().annotate(c_count=Count('field'))
@@ -73,7 +73,7 @@ def countryLoad(request, pk=None):
     return render(request, 'well/country.html', context)
 
 
-
+@login_required
 def countryUpdate(request, pk=None):
     if request.method=="POST":
         if pk is not None:
@@ -87,6 +87,7 @@ def countryUpdate(request, pk=None):
 
     return redirect('country')
 
+@login_required
 def countryCreate(request):
     form = forms.CountryForm()
     if request.method=="POST":
@@ -99,18 +100,20 @@ def countryCreate(request):
     context={'form':form}
     return render(request, 'form.html', context)
 
+@login_required
 def countryDelete(request, pk):
     
     country = models.Country.objects.get(id=pk)
     country.delete()
     return redirect('country')
     
-
+@login_required
 def wellLoad(request):
     wells = models.Well.objects.all()
     context = {'wells':wells}
     return render(request, 'well/well.html', context)
 
+@login_required
 def fieldLoad(request):
     q=request.GET.get('q') if request.GET.get('q') != None else ''
     if q=='':
@@ -121,7 +124,7 @@ def fieldLoad(request):
     context={'fields':fields}
     return render(request,'well/field.html', context)
 
-
+@login_required
 def fieldCreate(request, pk=None):
     form = forms.FieldForm(initial={'country':pk})
     if request.method == "POST":
@@ -133,6 +136,7 @@ def fieldCreate(request, pk=None):
     context={'form':form}
     return render(request, 'form.html', context)
 
+@login_required
 def fieldUpdate(request, pk):
     field = models.Field.objects.get(id=int(pk))
     form = forms.FieldForm(instance=field)
@@ -143,12 +147,14 @@ def fieldUpdate(request, pk):
             form.save()
             return redirect('field')
     return render(request, 'form.html', context)
-    
+
+@login_required
 def fieldDelete(request, pk):
     field = models.Field.objects.get(id=int(pk))
     field.delete()
     return redirect('field')
 
+@login_required
 def wellCreate(request, pk=None):
     form = forms.WellForm(initial={'field':pk})
     
@@ -161,6 +167,7 @@ def wellCreate(request, pk=None):
     context={'form':form}
     return render(request, 'form.html', context)
 
+@login_required
 def wellUpdate(request, pk):
     well = models.Well.objects.get(id=int(pk))
     form = forms.WellForm(instance=well)
@@ -172,6 +179,7 @@ def wellUpdate(request, pk):
             return redirect('field')
     return render(request, 'form.html', context)
 
+@login_required
 def wellDelete(request, pk):
     well = models.Well.objects.get(id=int(pk))
     well.delete()

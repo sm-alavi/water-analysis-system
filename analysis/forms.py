@@ -25,13 +25,14 @@ class AnalysisForm(forms.ModelForm):
 
     class Meta:
         model = models.Analysis
-        fields = ('name', 'abbreviation','charge','molecular_weight')
+        fields = ('name', 'abbreviation','charge','molecular_weight', 'equivalent_weight')
 
         widgets={
             'name':forms.TextInput(attrs={'class':'form-control'}),
             'abbreviation':forms.TextInput(attrs={'class':'form-control'}),
             'charge':forms.NumberInput(attrs={'class':'form-control'}),
             'molecular_weight':forms.NumberInput(attrs={'class':'form-control'}),
+            'equivalent_weight':forms.NumberInput(attrs={'class':'form-control'}),
         }
 
 class DateInput(forms.DateInput):
@@ -62,9 +63,10 @@ class TestAnalysis(forms.Form):
         analysis = models.Analysis.objects.all()
         
         for item in analysis:
-            self.fields[item.name] = forms.CharField(label=f'{item.name}({item.abbreviation})', max_length=10)
-            self.fields[item.name].widget.attrs['class'] = 'form-control p-1'
-            self.fields[item.name].widget.attrs['style'] = 'width:250px;'
+            self.fields[item.name] = forms.CharField(label=f'{item.name}({item.abbreviation})', max_length=10, required=False)
+            self.fields[item.name].help_text = 'mg/lit'
+            self.fields[item.name].widget.attrs['class'] = 'form-control p-1 d-inline'
+            self.fields[item.name].widget.attrs['style'] = 'width:100px;'
    
    
 class MetadataForm(forms.ModelForm):
@@ -75,10 +77,11 @@ class MetadataForm(forms.ModelForm):
 
     class Meta:
         model = models.MetaData
-        fields = ('name',)
+        fields = ('name','unit',)
 
         widgets={
             'name':forms.TextInput(attrs={'class':'form-control'}),
+            'unit':forms.TextInput(attrs={'class':'form-control'}),
         }
 
 class TestMetadata(forms.Form):
@@ -89,8 +92,9 @@ class TestMetadata(forms.Form):
         
         for item in metadata:
             self.fields[item.name] = forms.CharField(label=item.name, max_length=10)
-            self.fields[item.name].widget.attrs['class'] = 'form-control p-1'
-            self.fields[item.name].widget.attrs['style'] = 'width:250px;'
+            self.fields[item.name].help_text = item.unit
+            self.fields[item.name].widget.attrs['class'] = 'form-control p-1 d-inline'
+            self.fields[item.name].widget.attrs['style'] = 'width:100px;'
 
 class StiffTemplateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):

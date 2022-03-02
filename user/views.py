@@ -4,6 +4,7 @@ from django.contrib.admin.models import LogEntry
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserChangeForm
 from . import forms
+from django.contrib import messages
 # Create your views here.
 
 def loginPage(request):
@@ -55,7 +56,7 @@ def userUpdate(request, pk):
             form.save()
             return redirect('user')
 
-    return render(request, 'form.html', context)
+    return render(request, 'user/userform.html', context)
 
 def userDelete(request, pk):
     
@@ -72,9 +73,11 @@ def profileUpdate(request):
         form = forms.UserProfileForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
+            messages.success(request,"Your profile updated succesfully!")
+
             return redirect('profile')
 
-    return render(request, 'form.html', context)
+    return render(request, 'user/userform.html', context)
 
 def userActivity(request):
     activity = LogEntry.objects.all()

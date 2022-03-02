@@ -9,17 +9,18 @@
         <a href="{% url 'stifftemplatelevel' stifftemplatelevel.stiff_template.id %}" class="btn btn-secondary btn-sm rounded shadow"><i class="bi bi-arrow-90deg-left"></i> Back</a>
     </div>
     <div class="card mb-4">
-        <div class="card-header text-center">
+        <div class="card-header bg-secondary text-white">
             <i class="fas fa-table me-1"></i>
             Stiff Template Ions for Level <strong>{{stifftemplatelevel.name}} </strong> of template <strong> {{stifftemplatelevel.stiff_template.name}}</strong>
         </div>
-        <div class="card-body">
+        <div class="card-body text-center">
             <table id="datatablesSimple">
                 <thead>
                     <tr>
                         <th>Ion</th>
                         <th>Updated</th>
                         <th>Created</th>
+                        <th>Actions</th>
                     
                     </tr>
                 </thead>
@@ -28,6 +29,7 @@
                         <th>Ion</th>
                         <th>Updated</th>
                         <th>Created</th>
+                        <th>Actions</th>
                     </tr>
                 </tfoot>
                 <tbody>
