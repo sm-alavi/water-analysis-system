@@ -52,7 +52,7 @@
                 <div class="d-md-inline-block justify-content-end">
                     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4 navbar-dark">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle d-6" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i>{{request.user.get_full_name}}</a>
+                            <a class="nav-link dropdown-toggle d-6" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-circle"></i> {{request.user.get_full_name}} </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
                                 <li><hr class="dropdown-divider" /></li>
