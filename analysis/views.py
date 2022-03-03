@@ -1,5 +1,3 @@
-from contextlib import redirect_stderr
-from random import sample
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from . import forms

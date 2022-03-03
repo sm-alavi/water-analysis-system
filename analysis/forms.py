@@ -1,8 +1,6 @@
 from django import forms
 from . import models
 from bootstrap_datepicker_plus.widgets import  DateTimePickerInput
-from django.db.models.query import QuerySet
-from .models import Analysis
 
 class SamplePointForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
