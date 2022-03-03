@@ -25,7 +25,7 @@ def loadDashboard(request):
     
     field_test = Test.objects.values('well__field__name').annotate(total=Count('id'))
     samplepoint_test = Test.objects.values('samplepoint__name').annotate(total=Count('id'))
-    
+    wells = models.Well.objects.all()
     summary=[
         ModelItemsCount('Tests',Test.objects.count(), 'test'),
         ModelItemsCount('Wells',models.Well.objects.count(), 'well'),
@@ -36,7 +36,8 @@ def loadDashboard(request):
     context={
         'summary':summary,
         'field_test':field_test,
-        'samplepoint_test':samplepoint_test
+        'samplepoint_test':samplepoint_test,
+        'wells':[item.get_json() for item in wells],
     }
 
     return render(request, 'well/dashboard.html', context)

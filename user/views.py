@@ -5,7 +5,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserChangeForm
 from . import forms
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 # Create your views here.
+
 
 def loginPage(request):
     
@@ -25,15 +27,18 @@ def loginPage(request):
     context={}
     return render(request, 'user/login.html', context)
 
+@login_required
 def logoutPage(request):
     logout(request)
     return redirect('login')
 
+@login_required
 def userLoad(request):
     user=User.objects.all()
     context={'user':user}
     return render(request, 'user/user.html', context)
 
+@login_required
 def userCreate(request):
     form = forms.UserForms()
     context={'form':form,
@@ -46,6 +51,7 @@ def userCreate(request):
 
     return render(request, 'form.html', context)
 
+@login_required
 def userUpdate(request, pk):
     user=User.objects.get(id=int(pk))
     form=forms.UserChangeForm(instance=user)
@@ -58,6 +64,7 @@ def userUpdate(request, pk):
 
     return render(request, 'user/userform.html', context)
 
+@login_required
 def userDelete(request, pk):
     
     user=User.objects.get(id=int(pk))
@@ -65,6 +72,7 @@ def userDelete(request, pk):
         user.delete()
     return redirect('user')
 
+@login_required
 def profileUpdate(request):
     user=User.objects.get(id=int(request.user.id))
     form=forms.UserProfileForm(instance=user)
@@ -79,6 +87,7 @@ def profileUpdate(request):
 
     return render(request, 'user/userform.html', context)
 
+@login_required
 def userActivity(request):
     activity = LogEntry.objects.all()
     print(activity)

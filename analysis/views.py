@@ -361,8 +361,6 @@ def radarchartFilter(request):
         sp = request.POST.get("samplepoint")
         well_id = request.POST.get("well_id")
 
-        testanalysis = models.TestAnalysis.objects.filter(Q(test__well=int(well_id)) & 
-        Q(test__sampling_date__date__range=[from_date, to_date]) & Q(test__samplepoint = int(sp)))
         tests = models.Test.objects.filter(
             Q(sampling_date__date__range=[from_date, to_date]),
             Q(samplepoint=int(sp)), 

@@ -34,13 +34,9 @@ class WellForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs) # Call to ModelForm constructor
         for k in self.fields:
+            self.fields[k].widget.attrs['class'] = 'form-control'
             self.fields[k].widget.attrs['style'] = 'width:250px;'
             
     class Meta:
         model = models.Well
-        fields=('field', 'name', )
-
-        widgets={
-            'field': Select(attrs={'class':'form-control'}),
-            'name':TextInput(attrs={'class':'form-control'}),
-        }
+        fields=('field', 'name','easting', 'northing', 'utmzone', 'lat', 'long')
