@@ -174,10 +174,10 @@ def wellUpdate(request, pk):
     form = forms.WellForm(instance=well)
     context={'form':form}
     if request.method == "POST":
-        well = forms.WellForm(request.POST, instance=well)
+        form = forms.WellForm(request.POST, instance=well)
         if form.is_valid():
             form.save()
-            return redirect('field')
+            return redirect('well')
     return render(request, 'form.html', context)
 
 @login_required

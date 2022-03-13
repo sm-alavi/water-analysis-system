@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.admin.models import LogEntry
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth.hashers import make_password
 from . import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -19,9 +20,10 @@ def loginPage(request):
         except:
             None
         user = authenticate(request, username=username, password=password)
-
+        print(user)
         if user is not None:
             login(request, user)
+            print('login shod')
             return redirect('dashboard')
        
     context={}
@@ -46,6 +48,8 @@ def userCreate(request):
     if request.method=="POST":
         form = forms.UserForms(request.POST)
         if form.is_valid():
+            form = form.save(commit=False)
+            form.password = make_password(request.POST.get("password"))
             form.save()
             return redirect('user')
 

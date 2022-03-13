@@ -36,7 +36,7 @@
     </div>
 
     <div class="row mb-2">
-      <div class="col-xl-6">
+      <div class="col-xl-4">
           <div class="card mb-4">
               <div class="card-header">
                 <i class="bi bi-pie-chart-fill"></i>
@@ -45,7 +45,7 @@
               <div class="card-body"><canvas id="piechart1" width="100%" height="40"></canvas></div>
           </div>
       </div>
-      <div class="col-xl-6">
+      <div class="col-xl-4">
           <div class="card mb-4">
               <div class="card-header">
                 <i class="bi bi-pie-chart-fill"></i>
@@ -54,6 +54,15 @@
               <div class="card-body"><canvas id="piechart2" width="100%" height="40"></canvas></div>
           </div>
       </div>
+      <div class="col-xl-4">
+        <div class="card mb-4">
+            <div class="card-header">
+              <i class="bi bi-pie-chart-fill"></i>
+               Field - Pie Chart
+            </div>
+            <div class="card-body"><canvas id="piechart3" width="100%" height="40"></canvas></div>
+        </div>
+    </div>
   </div>
 
 </div>
@@ -71,9 +80,10 @@
   var wells = JSON.parse(document.getElementById('wells').textContent);
   var map = L.map('map').setView([50, 50], 2);
   L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFoZGlzbWEiLCJhIjoiY2wwOXp4c3BxMGlocDNrcXVldW9oNngzMSJ9.DWwhFVphtXti6OVuQUifFg', {
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    //attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     id: 'mapbox/streets-v11',
+    //id:'mapbox.satellite-v9',
     tileSize: 512,
     zoomOffset: -1,
     accessToken: 'pk.eyJ1IjoibWFoZGlzbWEiLCJhIjoiY2wwOXp4c3BxMGlocDNrcXVldW9oNngzMSJ9.DWwhFVphtXti6OVuQUifFg'
@@ -169,6 +179,11 @@ wells.filter(function(well){return well.lat !== null }).map(function(well){
 
       var myChart = new Chart(
         document.getElementById('piechart1'),
+        config
+      );
+
+      new Chart(
+        document.getElementById('piechart3'),
         config
       );
 
