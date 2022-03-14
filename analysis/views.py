@@ -1,3 +1,4 @@
+from random import sample
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from . import forms
@@ -44,8 +45,12 @@ def analysisUpdate(request, pk):
 @login_required
 def analysisDelete(request, pk):
     analysis = models.Analysis.objects.get(id=int(pk))
-    analysis.delete()
-    return redirect('analysis')
+    context={'item':analysis}
+    if request.method == "POST":   
+        analysis.delete()
+        return redirect('analysis')
+
+    return render(request, 'delete.html', context)
 
 @login_required
 def samplepointLoad(request):
@@ -79,8 +84,12 @@ def samplepointUpdate(request, pk):
 @login_required
 def samplepointDelete(request, pk):
     samplepoint = models.SamplePoint.objects.get(id=int(pk))
-    samplepoint.delete()
-    return redirect('samplepoint')
+    context={'item':samplepoint}
+    if request.method == "POST":
+        samplepoint.delete()
+        return redirect('samplepoint')
+
+    return render(request, 'delete.html', context)
 
 @login_required
 def testLoad(request):
@@ -113,8 +122,12 @@ def testUpdate(request, pk):
 @login_required
 def testDelete(request, pk):
     test = models.Test.objects.get(id=int(pk))
-    test.delete()
-    return redirect('test')
+    context={'item':test}
+    if request.method == "POST":
+        test.delete()
+        return redirect('test')
+
+    return render(request, 'delete.html', context)
 
 @login_required    
 def testView(request, pk):
@@ -190,8 +203,12 @@ def metadataUpdate(request, pk):
 @login_required
 def metadataDelete(request, pk):
     metadata = models.MetaData.objects.get(id=int(pk))
-    metadata.delete()
-    return redirect('metadata')   
+    context={'item':metadata}
+    if request.method=="POST":
+        metadata.delete()
+        return redirect('metadata')
+
+    return render(request, 'delete.html', context) 
 
 @login_required
 def testmetadataModify(request, pk):
@@ -250,9 +267,13 @@ def stifftemplateUpdate(request, pk):
 @login_required
 def stifftemplateDelete(request, pk):
     stifftemplate = models.StiffTemplate.objects.get(id=int(pk))
-    stifftemplate.delete()
-    messages.success(request, f"{stifftemplate.name.title()} deleted succesfully.")
-    return redirect('stifftemplate')
+    context = {'item':stifftemplate}
+    if request.method == "POST":
+        stifftemplate.delete()
+        messages.success(request, f"{stifftemplate.name.title()} deleted succesfully.")
+        return redirect('stifftemplate')
+
+    return render(request, 'delete.html', context)
 
 @login_required
 def stifftemplatelevelLoad(request, pk):
@@ -292,9 +313,13 @@ def stifftemplatelevelUpdate(request, pk):
 def stifftemplatelevelDelete(request, pk):
     stifftemplatelevel = models.StiffTemplateLevel.objects.get(id=int(pk))
     pid = stifftemplatelevel.stiff_template_id
-    stifftemplatelevel.delete()
-    messages.success(request, f"{stifftemplatelevel.name.title()} deleted succesfully.")
-    return redirect('stifftemplatelevel', pk=pid)
+    context = {'item':stifftemplatelevel}
+    if request.method == "POST":
+        stifftemplatelevel.delete()
+        messages.success(request, f"{stifftemplatelevel.name.title()} deleted succesfully.")
+        return redirect('stifftemplatelevel', pk=pid)
+
+    return render(request, 'delete.html', context)
 
 @login_required
 def stifftemplatelevelionLoad(request, pk):
@@ -321,20 +346,14 @@ def stifftemplatelevelionCreate(request, pk):
 def stifftemplatelevelionDelete(request, pk):
     stifftemplatelevelion= models.StiffTemplateLevelIon.objects.get(id=int(pk))
     pid = stifftemplatelevelion.stiff_template_level_id
-    stifftemplatelevelion.delete()
-    messages.success(request, f"{stifftemplatelevelion.analysis.name.title()} deleted succesfully.")
-    return redirect('stifftemplatelevelion', pk=pid)
+    context = {'item':stifftemplatelevelion}
+    if request.method == "POST":
+        stifftemplatelevelion.delete()
+        messages.success(request, f"{stifftemplatelevelion.analysis.name.title()} deleted succesfully.")
+        return redirect('stifftemplatelevelion', pk=pid)
 
-@login_required
-def createNote(request):
-    tests = models.Test.objects.all()
-    context={'test':tests}
-    if request.method == 'POST': 
-        test_id = request.POST.get('test_id') 
-        test = models.Test.objects.get(id=int(test_id))
-        return JsonResponse({'test_data':test}) 
-
-    return render(request, 'analysis/radar.html', context)
+    return render(request, 'delete.html', context)
+    
 
 @login_required
 def radarchartLoad(request, pk):

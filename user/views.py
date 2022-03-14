@@ -72,8 +72,13 @@ def userUpdate(request, pk):
 def userDelete(request, pk):
     
     user=User.objects.get(id=int(pk))
+    context = {'item':user}
     if request.user != user:
-        user.delete()
+        if request.method == "POST":
+            user.delete()
+            return redirect('user')
+        return render(request, 'delete.html', context)
+
     return redirect('user')
 
 @login_required

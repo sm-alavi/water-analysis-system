@@ -105,8 +105,12 @@ def countryCreate(request):
 def countryDelete(request, pk):
     
     country = models.Country.objects.get(id=pk)
-    country.delete()
-    return redirect('country')
+    context = {'item':country}
+    if request.method == "POST":
+        country.delete()
+        return redirect('country')
+    
+    return render(request,'delete.html', context)
     
 @login_required
 def wellLoad(request):
@@ -152,8 +156,12 @@ def fieldUpdate(request, pk):
 @login_required
 def fieldDelete(request, pk):
     field = models.Field.objects.get(id=int(pk))
-    field.delete()
-    return redirect('field')
+    context = {'item':field}
+    if request.method == "POST":
+        field.delete()
+        return redirect('field')
+
+    return render(request, 'delete.html', context)
 
 @login_required
 def wellCreate(request, pk=None):
@@ -183,5 +191,9 @@ def wellUpdate(request, pk):
 @login_required
 def wellDelete(request, pk):
     well = models.Well.objects.get(id=int(pk))
-    well.delete()
-    return redirect('well')
+    context = {'item':well}
+    if request.method == "POST":
+        well.delete()
+        return redirect('well')
+        
+    return render(request, 'delete.html', context)

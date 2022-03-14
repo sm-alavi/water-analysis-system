@@ -21,5 +21,4 @@ urlpatterns = [
     path('', include('user.urls')), 
     path('', include('well.urls')),
     path('', include('analysis.urls')),
-
 ]

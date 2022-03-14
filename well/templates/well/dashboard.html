@@ -1,7 +1,10 @@
 {% extends 'main.html' %}
+{% load static %}
+
+
 {% block content %}
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Dashboard</h1>
+    <p class="display-6 mt-4">Dashboard</p>
 
 
     <div class="row">
@@ -42,7 +45,7 @@
                 <i class="bi bi-pie-chart-fill"></i>
                  Field - Pie Chart
               </div>
-              <div class="card-body"><canvas id="piechart1" width="100%" height="40"></canvas></div>
+              <div class="card-body"><canvas id="field-piechart" width="100%" height="40"></canvas></div>
           </div>
       </div>
       <div class="col-xl-4">
@@ -51,7 +54,7 @@
                 <i class="bi bi-pie-chart-fill"></i>
                  Sample Point - Pie Chart
               </div>
-              <div class="card-body"><canvas id="piechart2" width="100%" height="40"></canvas></div>
+              <div class="card-body"><canvas id="sp-piechart" width="100%" height="40"></canvas></div>
           </div>
       </div>
       <div class="col-xl-4">
@@ -67,7 +70,6 @@
 
 </div>
 
-
 {% endblock content %}
 
 
@@ -77,116 +79,27 @@
 
 
 <script>
-  var wells = JSON.parse(document.getElementById('wells').textContent);
-  var map = L.map('map').setView([50, 50], 2);
-  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFoZGlzbWEiLCJhIjoiY2wwOXp4c3BxMGlocDNrcXVldW9oNngzMSJ9.DWwhFVphtXti6OVuQUifFg', {
-    //attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 18,
-    id: 'mapbox/streets-v11',
-    //id:'mapbox.satellite-v9',
-    tileSize: 512,
-    zoomOffset: -1,
-    accessToken: 'pk.eyJ1IjoibWFoZGlzbWEiLCJhIjoiY2wwOXp4c3BxMGlocDNrcXVldW9oNngzMSJ9.DWwhFVphtXti6OVuQUifFg'
-}).addTo(map);
 
-wells.filter(function(well){return well.lat !== null }).map(function(well){
-  L.marker([well.lat, well.long])
-  .bindPopup(`
-  <div class="card m-n1 shadow-sm">
-    <div class="card-header bg-dark text-white">
-       ${well.name}
-    </div>
-    <div class="card-body">
-      <table class="table table-striped m-n2">
-        <tbody>
-          <tr>
-            <td>Field</td>
-            <td>${well.field}</td>
-          </tr>
-          <tr>
-            <td>Longitude</td>
-            <td>${well.long}</td>
-          </tr>
-          <tr>
-            <td>Latitude</td>
-            <td>${well.lat}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  `).bindTooltip(well.name, 
-  {
-      permanent: true, 
-      direction: 'right'
-  }).addTo(map);
-})
-
-    var data = {
-          labels: [
+  var sp_labels = [
               {% for item in samplepoint_test %}'{{item.samplepoint__name}}',{%endfor%}
-          ],
-          datasets: [{
-            label: 'New Label',
-            data: [
+          ];
+
+  var sp_data = [
               {% for item in samplepoint_test %}{{item.total}},{%endfor%}
-            ],
-            backgroundColor: [
-              'rgb(255, 99, 132)',
-              'rgb(54, 162, 235)',
-              'rgb(255, 205, 86)'
-                      ],
-            hoverOffset: 6
-          }]
-        };
-       
-        var config = {
-          type: 'doughnut',
-          data: data,
-        };
-  
-        var myChart = new Chart(
-          document.getElementById('piechart2'),
-          config
-        );
+            ];
 
+  var field_labels= [
+        {% for item in field_test %}'{{item.well__field__name}}',{%endfor%}
+    ];
+
+  var field_data = [
+        {% for item in field_test %}{{item.total}},{%endfor%}
+      ];
 </script>
 
-<script>
-
-  var data = {
-        labels: [
-            {% for item in field_test %}'{{item.well__field__name}}',{%endfor%}
-        ],
-        datasets: [{
-          label: 'New Label',
-          data: [
-            {% for item in field_test %}{{item.total}},{%endfor%}
-          ],
-          backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
-            'rgb(255, 205, 86)'
-                    ],
-          hoverOffset: 6
-        }]
-      };
-     
-      var config = {
-        type: 'doughnut',
-        data: data,
-      };
-
-      var myChart = new Chart(
-        document.getElementById('piechart1'),
-        config
-      );
-
-      new Chart(
-        document.getElementById('piechart3'),
-        config
-      );
-
-</script>
+<script src="{% static 'js/dashboard-map.js' %}"></script>
+<script src="{% static 'js/field-piechart.js' %}"></script>
+<script src="{% static 'js/sp-piechart.js' %}"></script>
 
 {%endblock javascript %}
+

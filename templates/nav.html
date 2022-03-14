@@ -14,24 +14,28 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       Wells
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item" href="{% url 'country' %}">Country</a></li>
-                      <li><a class="dropdown-item" href="{% url 'field' %}">Field</a></li>
-                      <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" href="{% url 'well' %}">Wells</a></li>
-                    </ul>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="{% url 'country' %}">Country</a>
+                      <a class="dropdown-item" href="{% url 'field' %}">Field</a>
+                      <div class="dropwdown-divider"></div>
+                      <a class="dropdown-item" href="{% url 'well' %}">Wells</a>
+                    </div>
                   </li>
+
                   {% comment "Test Menue" %}{% endcomment %}
+
                   <li class="nav-item dropdown"> 
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       Tests
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item" href="{% url 'analysis' %}">Analysis</a></li>
-                      <li><a class="dropdown-item" href="{% url 'metadata' %}">Properties</a></li>
-                      <li><a class="dropdown-item" href="{% url 'samplepoint' %}">Sample Point</a></li>
-                      <li><a class="dropdown-item" href="{% url 'test' %}">Tests</a></li>
-                    </ul>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="{% url 'test' %}">Tests</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="{% url 'analysis' %}">Analysis</a>
+                      <a class="dropdown-item" href="{% url 'metadata' %}">Properties</a>
+                      <a class="dropdown-item" href="{% url 'samplepoint' %}">Sample Point</a>
+                      
+                    </d>
                   </li>
 
                   {% comment "Settings Menue" %}{% endcomment %}
@@ -53,13 +57,14 @@
                     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4 navbar-dark">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle d-6" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-circle"></i> {{request.user.get_full_name}} </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="{% url 'user' %}">Users</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-                            </ul>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{% url 'profile' %}"><i class="bi bi-person-badge"></i> Profile</a>
+                                {% if request.user.is_superuser %}
+                                <a class="dropdown-item" href="{% url 'user' %}"><i class="bi bi-people"></i> Users</a>
+                                {%endif%}
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i> Logout</a>
+                            </div>
                         </li>
                     </ul>
                 </div>

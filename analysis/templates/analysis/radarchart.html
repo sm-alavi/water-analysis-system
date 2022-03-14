@@ -90,8 +90,8 @@
         var options = document.getElementById("ionselect").selectedOptions;
         var ions = Array.from(options).map(function(value){return value.attributes.value.value})
         console.log(ions)
-        // ....axios post request
-        let url = '{% url "radarchart-filter" %}' // self request so we call developer
+ 
+        let url = '{% url "radarchart-filter" %}' 
         let tests = ''
         let labels = []
         let datasets=[]
@@ -124,10 +124,9 @@ var color =
             .catch(e => console.log(e))
             .then(function()
             {
-                console.log(tests)
+                
                 var data = {
                     labels: labels,
-                
                     datasets: datasets,
                 
                   };

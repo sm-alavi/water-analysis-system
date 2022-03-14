@@ -1,0 +1,23 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="container mt-5 justify-content-center w-50">
+    <div class="card">
+        <div class="card-header">
+            Delete {{item.name}}
+        </div>
+        <div class="card-body">
+            Are you sure to delete {{item.name}}?
+        </div>
+        <div class="card-footer">
+            <form method="POST" action="">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary" >Yes</button>
+                <a class="btn btn-secondary" href="{{request.META.HTTP_REFERER}}">No</a>
+            </form>
+            
+            
+        </div>
+    </div>
+</div>
+{% endblock %}
